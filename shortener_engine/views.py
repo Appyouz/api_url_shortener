@@ -1,3 +1,4 @@
+import random
 from sqlite3 import IntegrityError
 from rest_framework import serializers, status
 from rest_framework.views import APIView
@@ -23,9 +24,27 @@ class URLView(APIView):
 
                 url_instance.short_key = short_key
                 url_instance.save()
-            except IntegrityError:
             #TODO: Implement a fall back incase base-62 dont work
-                return Response({'error': 'A collision occurred, please try again.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except IntegrityError:
+                # Fix the length and charaacter set that is base
+                KEY_LENGTH = 6
+                CHARACTER_SET = base
+
+                # Check for it until a unique id shows up thus infinite loop
+                while True:
+                    random_key = ""
+
+                    #generate a random key equal to key_length
+                    for _ in range(KEY_LENGTH):
+                        random_key += random.choice(CHARACTER_SET)
+
+                    # Check if the ranomd_key exists in database
+                    # If it doesnt exist add it to short_key, save and break
+                    if not URL.objects.filter(short_key=random_key).exists():
+                        url_instance.short_key = random_key
+                        url_instance.save()
+                        break
+
 
             final_serializer = URLSerializer(url_instance)
 
