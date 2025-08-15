@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import URLView
 
 urlpatterns = [
-    path("", views.index, name='index')
+    path('shorten/', URLView.as_view(), name='shorten_url'),
 ]
