@@ -1,0 +1,66 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  usually one of these files is contaminated with the rest of the
+#  metadata in the (.spec) file
+#  and the binary itself
+*.manifest
+*.spec
+*.bin
+*.out
+*.log
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+.tox/
+.nox/
+/htmlcov/
+.coverage.*
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+*.sqlite3
+/media
+/static/
+
+# IDEs and other local files
+.vscode/
+.idea/
+.DS_Store
+.env
+.flaskenv
+.venv
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
