@@ -8,20 +8,29 @@ from rest_framework.response import Response
 
 class URLView(APIView):
     def post(self, request):
-        long_url = request.data.get('long_url')
         serializer = URLSerializer(data=request.data)
         base = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         if serializer.is_valid():
+            # Create an instance of the serializer
             url_instance = serializer.save()
 
             try:
+                # get id from the instance after save
                 id = url_instance.id
                 short_key = ""
+
+                # Run loop until id is greater than zero
                 while id > 0:
+                    # Find the remainder of the id divided by 62
                     remainder = id % 62
+
+                    # get quotient 
                     id = id // 62
+                    
+                    # pass the unique generate base values to our short_key
                     short_key = base[remainder] + short_key
 
+                # Pass and save the short key in url_instance
                 url_instance.short_key = short_key
                 url_instance.save()
             #TODO: Implement a fall back incase base-62 dont work
