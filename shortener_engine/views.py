@@ -1,10 +1,11 @@
 import random
 from sqlite3 import IntegrityError
-from rest_framework import serializers, status
+from rest_framework import  status
 from rest_framework.views import APIView
 from .serializers import URLSerializer
 from .models import URL
 from rest_framework.response import Response
+from django.shortcuts import redirect
 
 class URLView(APIView):
     def post(self, request):
@@ -62,3 +63,11 @@ class URLView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class ShortUrlView(APIView):
+    def get(self, request, short_key):
+        try:
+            url_instance = URL.objects.get(short_key=short_key)
+            return redirect(url_instance.long_url)
+        except URL.DoesNotExist:
+            return Response({"error": "Short URL not found"}, status=status.HTTP_404_NOT_FOUND)
